@@ -3,30 +3,49 @@ package com.toast.toast_plugin
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 
 
-class WrapToast : Toast {
-    constructor(context: Context?) : super(context)
+open class WrapToast(context: Context?) : Toast(context) {
 
-    var SUCCESS: Int = 1
-    var WARNING: Int = 2
-    var ERROR: Int = 3
-    var CONFUSING: Int = 4
-    var SHORT: Long = 4000
-    var LONG: Long = 7000
+    companion object {
+        var SUCCESS: Int = 2
+        var WARNING: Int = 2
+        var ERROR: Int = 3
 
-    open fun makeText(
-        context: Context,
-        message: String,
-        duration: Int, type: Int,
-        androidIcon: Boolean
-    ) {
-        var toast: Toast = Toast(context)
-        toast.duration = duration
-        var layout: View =
-            LayoutInflater.from(context).inflate(R.layout.customtoast_layout, null, false)
-        //TODO: CUSTOM TOAST
+
+        fun makeText(context: Context, message: String, type: String): Toast {
+            val toast = Toast(context)
+
+            val layout: View =
+                LayoutInflater.from(context).inflate(R.layout.customtoast_layout, null, false)
+            val linearLayout: LinearLayout = layout.findViewById(R.id.toast_type)
+
+            when (type) {
+                "SUCCESS" -> {
+                    toast.duration = SUCCESS
+                    linearLayout.setBackgroundResource(R.drawable.success_shape)
+                }
+
+                "WARNING" -> {
+                    toast.duration = WARNING
+                    linearLayout.setBackgroundResource(R.drawable.warning_shape)
+                }
+
+                "ERROR" -> {
+                    toast.duration = ERROR
+                    linearLayout.setBackgroundResource(R.drawable.error_shape)
+                }
+            }
+
+
+            val text: TextView = layout.findViewById(R.id.toast_text)
+            text.text = message
+            toast.view = layout
+            return toast
+        }
     }
 }
 

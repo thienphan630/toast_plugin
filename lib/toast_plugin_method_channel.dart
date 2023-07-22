@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:toast_plugin/toast_type_enum.dart';
 
 import 'toast_plugin_platform_interface.dart';
 
@@ -17,7 +18,8 @@ class MethodChannelToastPlugin extends ToastPluginPlatform {
   }
 
   @override
-  Future<void> showToastMessage() async {
-    await methodChannel.invokeMethod('showToastMessage');
+  Future<void> showToastMessage(String message, ToastType type) async {
+    await methodChannel.invokeMethod<Map<String, dynamic>>(
+        'showToastMessage', {'message': message, 'type': type.name});
   }
 }

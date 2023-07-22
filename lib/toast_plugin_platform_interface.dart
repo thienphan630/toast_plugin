@@ -1,4 +1,5 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'package:toast_plugin/toast_type_enum.dart';
 
 import 'toast_plugin_method_channel.dart';
 
@@ -27,7 +28,7 @@ abstract class ToastPluginPlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<void> showToastMessage() {
+  Future<void> showToastMessage(String message, ToastType type) {
     throw UnimplementedError('showToastMessage() has not been implemented');
   }
 }

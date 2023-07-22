@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:toast_plugin/toast_plugin.dart';
+import 'package:toast_plugin/toast_type_enum.dart';
 
 void main() {
   runApp(const MyApp());
@@ -59,7 +60,7 @@ class _MyAppState extends State<MyApp> {
         ),
         floatingActionButton: IconButton(
             onPressed: () {
-              _toastPlugin.showToast();
+              _toastPlugin.showToast('Hello World', ToastType.ERROR);
             },
             icon: const Icon(Icons.abc)),
       ),

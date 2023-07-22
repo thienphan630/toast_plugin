@@ -1,12 +1,8 @@
 package com.toast.toast_plugin
 
 import android.content.Context
-import android.widget.Toast
-import androidx.annotation.NonNull
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
-import io.flutter.embedding.engine.plugins.activity.ActivityAware
-import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -21,17 +17,34 @@ class ToastPlugin : FlutterPlugin, MethodCallHandler {
     private lateinit var channel: MethodChannel
     private lateinit var context: Context
 
-    override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+    override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "toast_plugin")
         channel.setMethodCallHandler(this)
         context = flutterPluginBinding.applicationContext
     }
 
-    override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
+    override fun onMethodCall(call: MethodCall, result: Result) {
         when (call.method) {
             "getPlatformVersion" -> result.success("Android ${android.os.Build.VERSION.RELEASE}")
             "showToastMessage" -> {
-                Toast.makeText(context, "Hello", Toast.LENGTH_LONG).show()
+                val message = call.argument<String>("message")
+                val type = call.argument<String>("type")
+                println(message)
+                println("makeText")
+                if (message != null) {
+                    when (type) {
+                        "SUCCESS" -> {
+                            WrapToast.makeText(context, message, type).show()
+                        }
+                        "WARNING" -> {
+                            WrapToast.makeText(context, message,  type).show()
+                        }
+                        "ERROR" -> {
+                            WrapToast.makeText(context, message,  type).show()
+                        }
+                    }
+
+                }
             }
             else -> {
                 result.notImplemented()
@@ -39,7 +52,7 @@ class ToastPlugin : FlutterPlugin, MethodCallHandler {
         }
     }
 
-    override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
+    override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         channel.setMethodCallHandler(null)
     }
 }
