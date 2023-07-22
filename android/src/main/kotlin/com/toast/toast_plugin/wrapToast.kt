@@ -14,6 +14,7 @@ open class WrapToast(context: Context?) : Toast(context) {
         var SUCCESS: Int = 2
         var WARNING: Int = 2
         var ERROR: Int = 3
+        var CONFUSING:Int = 2
 
 
         fun makeText(context: Context, message: String, type: String): Toast {
@@ -37,6 +38,10 @@ open class WrapToast(context: Context?) : Toast(context) {
                 "ERROR" -> {
                     toast.duration = ERROR
                     linearLayout.setBackgroundResource(R.drawable.error_shape)
+                }
+                else -> {
+                    toast.duration = CONFUSING
+                    linearLayout.setBackgroundResource(R.drawable.confusing_shape)
                 }
             }
 
